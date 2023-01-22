@@ -3,7 +3,7 @@ resource "aws_security_group" "bastion_sg" {
   description = "Allow SSH inbound traffic"
   vpc_id      = var.vpc
   dynamic "ingress" {
-    for_each = [22, 80]
+    for_each = [22]
     iterator = port
     content {
       from_port   = port.value

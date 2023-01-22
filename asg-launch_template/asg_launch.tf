@@ -68,6 +68,20 @@ resource "aws_autoscaling_group" "ventura-webserver-asg" {
 
 }
 
+resource "aws_autoscaling_policy" "ventura_asgweb_policy" {
+  name = "prod-asg-scale-out-policy"
+  autoscaling_group_name = aws_autoscaling_group.ventura-webserver-asg.id
+  policy_type = "TargetTrackingScaling"
+  target_tracking_configuration {
+    predefined_metric_specification{
+      predefined_metric_type = "Average CPU Utilization"
+    }
+    target_value = 80.0
+  }
+
+  
+}
+
 data "aws_ami" "app_server_ami" {
   most_recent = true
   owners = ["amazon"]
@@ -117,5 +131,17 @@ resource "aws_autoscaling_group" "ventura-appserver-asg" {
 
 }
 
+resource "aws_autoscaling_policy" "ventura_asgapp_policy" {
+  name = "prod-asg-scale-out-policy"
+  autoscaling_group_name = aws_autoscaling_group.ventura-appserver-asg.id
+  policy_type = "TargetTrackingScaling"
+  target_tracking_configuration {
+    predefined_metric_specification{
+      predefined_metric_type = "Average CPU Utilization"
+    }
+    target_value = 80.0
+  }
 
+  
+}
 
